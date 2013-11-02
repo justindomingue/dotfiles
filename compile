@@ -1,0 +1,103 @@
+#!/bin/bash
+# compile : compiler command that adds features to the gcc command
+#           **assumes it is located inside the source directory**
+# justin domingue - october 10 2013
+
+# VARIABLES ======================================
+PRG=$0            # program name
+SRCD="source"     # source directory 
+TGTD="../backup"     # target directory
+FILENAME=       # name of the file to compile
+CFILENAMES=     # names of the c files to link
+
+# FUNCTIONS =======================================
+
+# CLEAN: deletes all the .o files before compiling
+clean()
+{
+  echo "Cleaning"
+  rm -f *.o 2> /dev/null   # silent the output
+}
+
+# BACKUP: copies all the .c and .h files into the backup directory
+#         uses the backup script created in assignment 1
+backup()
+{
+  echo "Performing backup"
+  createBackupDir
+  cp -f *.[ch] ../backup 2> /dev/null
+}
+
+# ARCHIVE: tars the contents of the source directory ; moves the tar into the backup directory
+
+archive()
+{
+  echo "Archiving"
+  createBackupDir
+  tar -cf archive.tar *
+  mv -f archive.tar $TGTD/archive.tar
+}
+
+# USAGE: prints the usage (help) information
+#        returns -1 (non-0 exit code) : bash exist the program when usage is called
+usage()
+{
+  echo "syntax: $PRG : -o filename [cfilenames] [-clean] [-backup] [-archive] [-help]"
+  echo
+  echo "-o filename : _mandatory_ argument that indicates the name of the executable"
+  echo "-clean      : deletes all the .o files before compiling"
+  echo "-backup     : copies all the .c and .h files into your backup directory"
+  echo "-archive    : TARs the contents of your source directory"
+  echo "-help       : shows how to use the bash compile"
+  echo "cfilenames  : list of source files that will be compiled together"
+  exit -1
+}
+
+# CREATEBACKUPDIR : creates a backup dir if none is found
+createBackupDir() {
+  if [ ! -d "$TGTD" ]; then
+    mkdir $TGTD
+  fi
+}
+
+# MAIN PROGRAM ===================================
+
+# first, check both if a param was given and if it is -o
+# so the condition also check for empty parameter (anyhow, it would simple to check with this code
+#     [ "$#" -lt 1 ] && usage
+# ).
+# Syntax helper : usage is executed if and only if the first command-line parameter is "-o"
+#                 remember that usage returns -1 so that the program exits
+[ "$1" != "-o" ] && usage
+
+# now that we know that -o is present, save the filename into a variable
+# we assume that if -o is present, then filename was provided
+FILENAME=$2
+
+# shift by two so we get the next parameter (we should have ./compile -o filename {next param})
+shift; shift;
+
+# parse the command line
+while [ $# -gt 0 ]
+do
+  case "$1" in
+    -clean) clean ;;
+    -backup) backup ;;
+    -archive) archive ;;
+    -help) usage ;;     
+    -*) usage ;;                            # not a valid option
+    *) CFILENAMES="$CFILENAMES $1" ;;       # concatenate the cfilenames
+  esac
+ shift
+done
+
+echo "Calling gcc with"
+echo "  - filename: $FILENAME"
+echo "  - cfilenames: $CFILENAMES"
+
+# finally, compile
+# if compile is successful, print a success message
+gcc -c $CFILENAMES
+gcc -o $FILENAME $CFILENAMES
+
+chmod +x $FILENAME

@@ -32,9 +32,18 @@ set incsearch                   " incremental searching
 set ignorecase                  " searches are case insensitive...
 set smartcase                   " ... unless they contain at least one capital letter
 
+"" Key mapping
+" :inoremap ( ()<Esc>i
+" :inoremap < <><Esc>i
+" :inoremap { {<CR>}<Esc>ko
+" :inoremap [ []<Esc>i
+
 "" Force myself
 " map <Left> :echo 'damnit!'<cr>
 " map <Right> :echo 'you suck!'<cr>
 " map <Up> :echo 'this is why you fail'<cr>
 " map <Down> :echo 'nooooo!'<cr>
 
+"" Vim Latex
+let g:tex_flavor='latex'
+set grepprg=grep\ -nH\ $*
