@@ -19,30 +19,35 @@ set number
 set ruler                       " show the line/column of the cursor position
 set scrolloff=999               " keep the curso in the middle of the scsreen
 " set spell                     " you know, just so I get spell check
+" set paste
+set wildmode=full
+set history=200
 
 "" Whitespace
-set wrap                      " wrap lines
-set tabstop=2 shiftwidth=2      " a tab is two spaces 
-set expandtab                   " use spaces, not tabs
-set backspace=indent,eol,start  " backspace through everything in insert mode
+set wrap                                    " wrap lines
+set tabstop=2 softtabstop=2 shiftwidth=2    " a tab is two spaces 
+set noexpandtab                             " use spaces, not tabs
+set backspace=indent,eol,start              " backspace through everything in insert mode
  
 "" Searching
-" set hlsearch                    " highlight matches
+set hlsearch                    " highlight matches
 set incsearch                   " incremental searching
 set ignorecase                  " searches are case insensitive...
 set smartcase                   " ... unless they contain at least one capital letter
+set nrformats=                  " treat all numerals as decimal
 
 "" Key mapping
-" :inoremap ( ()<Esc>i
-" :inoremap < <><Esc>i
-" :inoremap { {<CR>}<Esc>ko
-" :inoremap [ []<Esc>i
+nnoremap <silent> [b :bprevious<CR>
+nnoremap <silent> ]b :bnext<CR>
+nnoremap <silent> [B :bfirst<CR>
+nnoremap <silent> ]B :blast<CR>
+nnoremap <silent> <UP> <C-w>k
 
 "" Force myself
-" map <Left> :echo 'damnit!'<cr>
-" map <Right> :echo 'you suck!'<cr>
+map <Left> :echo 'damnit!'<cr>
+map <Right> :echo 'you suck!'<cr>
 " map <Up> :echo 'this is why you fail'<cr>
-" map <Down> :echo 'nooooo!'<cr>
+map <Down> :echo 'nooooo!'<cr>
 
 "" Vim Latex
 let g:tex_flavor='latex'

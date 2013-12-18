@@ -3,13 +3,22 @@ if [ -z "$PS1" ]; then
    return
 fi
 
-# arrow
-# PS1='\[\e[1;32m\][\w] → \[\e[m\]'
-# congruent
-PS1='\[\e[1;32m\][\w] ≡ \[\e[m\]'
+# Colors
+RED="\[\e[1;31m\]"
+BLUE="\[\e[1;34m\]"
+GREEN="\[\e[1;32m\]"
+YELLOW="\[\e[1;33m\]"
+DEFAULT="\[\e[m\]"
+
+# dir git-branch sign
+PS1="$GREEN[\W]$BLUE\$(__git_ps1)$GREEN → $DEFAULT"
+
+# rude bash prompt ≡
+# PS1="$RED ▀█▀ █▬█ █ ▄█▀   █ ▄█▀   ▄█▀ █▬█ █ ▀█▀ ☞ $DEFAULT"
 
 # display a quote from Sheldon Cooper of TBBT on login
-fortune .sheldon-fortune | cowsay  
+fortune ~/.sheldon-fortune | cowsay  
+echo
 
 # Make bash check its window size after a process completes
 shopt -s checkwinsize
@@ -33,5 +42,13 @@ alias la="ls -a"
 alias r="rails"
 alias ls="ls -G"
 alias cd..="cd .."								    
+alias del="rmtrash"
+alias rm="rm -i"
+alias mcgill="ssh jdomin9@cgi.cs.mcgill.ca"
+alias pyserver="python -m SimpleHTTPServer 8080"
+alias cdd="cd ~/Desktop"
 
 PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+
+### Added by the Heroku Toolbelt
+export PATH="/usr/local/heroku/bin:$PATH"
