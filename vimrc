@@ -1,5 +1,6 @@
 " justindomingue/dotfiles/.vimrc
-" 
+
+" Thanks & Resources {{{
 " thanks -
 "   github.com/mislav/vimfiles
 "   github.com/seenmyfate/vim
@@ -7,13 +8,13 @@
 " resources -
 "   http://mislav.uniqpath.com/2011/12/vim-revisited/
 "		http://nvie.com/posts/how-i-boosted-my-vim/
+" }}}
 
-"" start Pathogen
+" Pathogen {{{
 execute pathogen#infect()
+"}}}
 
-" change the mapleader from \ to ,
-let mapleader = ","
-
+" Basic Settings {{{
 set nocompatible														" choose no compatibility with legacy vi
 syntax enable
 set encoding=utf-8
@@ -23,6 +24,7 @@ set number
 set ruler                       						" show the line/column of the cursor position
 set scrolloff=999               						" keep the curso in the middle of the scsreen
 set wildmode=full
+set laststatus=2                            " Show status line always
 set history=200
 set undolevels=200
 set wildignore=*.swp,*.bak,*.pyc,*.class
@@ -33,38 +35,51 @@ set nobackup
 set noswapfile
 set pastetoggle=<F2>												" switch to paste mode
 colorscheme molokai
+" change the mapleader from \ to ,
+let mapleader = ","
+" }}}
 
-"" Whitespace
+" Whitespace {{{
 set nowrap                                  " wrap lines
 set tabstop=2 softtabstop=2 shiftwidth=2    " a tab is two spaces 
-set noexpandtab                             " use spaces, not tabs
+set expandtab                             " use spaces, not tabs
 set backspace=indent,eol,start              " backspace through everything in insert mode
+" }}}
 
-"" Searching
+" Searching {{{
 set hlsearch																" highlight matches
 set incsearch                   						" incremental searching
 set ignorecase                  						" searches are case insensitive...
 set smartcase                   						" ... unless they contain at least one capital letter
 set nrformats=                  						" treat all numerals as decimal
+" }}}
 
-"" Key mapping
-" nnoremap <silent> [b :bprevious<CR>
-" nnoremap <silent> ]b :bnext<CR>
-" nnoremap <silent> [B :bfirst<CR>
-" nnoremap <silent> ]B :blast<CR>
+" FileType-specific Settings {{{
+" }}}
+
+" Mappings {{{
 nnoremap <leader>sv :source $MYVIMRC<CR>
-nnoremap <leader>ev :split $MYVIMRC<CR>>
-inoremap <esc> <nop>
+nnoremap <leader>ev :split $MYVIMRC<CR>
 inoremap jk <esc>  
+inoremap <F9> <C-O>za
+nnoremap <F9> za
+onoremap <F9> <C-C>za
+vnoremap <F9> zf
+" }}}
 
-"" Abbreviations
+" Abbreviations {{{
 :iabbrev @@ justin@justindomingue.com
+:iabbrev -> →
+" }}}
 
-"" Force myself
-map <Left> :echo 'damnit!'<cr>
-map <Right> :echo 'you suck!'<cr>
-map <Up> :echo 'this is why you fail'<cr>
-map <Down> :echo 'nooooo!'<cr>
+" Vimscript File Settings {{{
+aug filetype_vim
+  au!
+  au FileType vim setlocal foldmethod=marker
+aug END
+" }}}
+
+" Plugins {{{
 
 "" Vim Latex
 let g:tex_flavor='latex'
@@ -77,9 +92,10 @@ let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'		" Search with ag (the sil
 let g:syntastic_check_on_open=1
 let g:syntastic_enable_signs=1
 
-"" Snipmate
-imap	<Space><Space> <esc>a<Plug>snipMateNextOrTrigger
-smap <Space><Space> <Plug>snipMateNextOrTrigger
+" "" YouCompleteMe
+" let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/cpp/ycm/.ycm_extra_conf.py'
 
-"" YouCompleteMe
-let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/cpp/ycm/.ycm_extra_conf.py'
+"" vim-markdown
+let g:vim_markdown_initial_foldlevel=1
+
+"" }}}
