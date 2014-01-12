@@ -73,10 +73,10 @@ vnoremap <F9> zf
 " }}}
 
 " Vimscript File Settings {{{
-aug filetype_vim
-  au!
-  au FileType vim setlocal foldmethod=marker
-aug END
+augroup filetype_vim
+  autocmd!
+  autocmd FileType vim setlocal foldmethod=marker
+augroup END
 " }}}
 
 " Plugins {{{
