@@ -8,6 +8,7 @@
 " resources -
 "   http://mislav.uniqpath.com/2011/12/vim-revisited/
 "		http://nvie.com/posts/how-i-boosted-my-vim/
+"		http://amix.dk/vim/vimrc.html
 " }}}
 
 " Pathogen {{{
@@ -27,23 +28,29 @@ set wildmode=full
 set laststatus=2                            " Show status line always
 set history=200
 set undolevels=200
-set wildignore=*.swp,*.bak,*.pyc,*.class
+set wildignore=*.swp,*.bak,*.pyc,*.class,*.o,*~
 set title																		" change the terminal's title
 set visualbell															" don't beep
 set noerrorbells														" don't beep
 set nobackup
 set noswapfile
-set pastetoggle=<F2>												" switch to paste mode
-colorscheme molokai
+set splitbelow                              " more natural split opening
+set splitright
+
+colorscheme kolor
+
 " change the mapleader from \ to ,
 let mapleader = ","
+let maplocalleader = ",,"
 " }}}
 
 " Whitespace {{{
 set nowrap                                  " wrap lines
 set tabstop=2 softtabstop=2 shiftwidth=2    " a tab is two spaces 
-set expandtab                             " use spaces, not tabs
+set expandtab                               " use spaces, not tabs
 set backspace=indent,eol,start              " backspace through everything in insert mode
+set ai                                      " auto indent
+set si                                      " smart indent
 " }}}
 
 " Searching {{{
@@ -58,18 +65,81 @@ set nrformats=                  						" treat all numerals as decimal
 " }}}
 
 " Mappings {{{
+
+" Leader Mappings {
 nnoremap <leader>sv :source $MYVIMRC<CR>
 nnoremap <leader>ev :split $MYVIMRC<CR>
+nnoremap <leader>ww  :w<cr>
+nnoremap <leader>wq :wq<CR>
+nnoremap <leader>qq :q!<CR>
+nnoremap <leader>-  O<esc>
+nnoremap <leader>=  o<esc>
+
+" Leader Mappings for Plugin {
+nnoremap <leader><left> :NERDTreeToggle<CR>
+nnoremap <leader><right> :TlistToggle<CR>
+
+" }
+" Soft delete (only deletes text, not line)
+nnoremap <leader>dd ^D
+" }
+
+" Fast insert mode exit
 inoremap jk <esc>  
+
+" In normal mode, <cr> is {
+nnoremap <CR> <C-d>
+
+" Map <Space> to search and Ctrl-<Space> to backward search
+noremap <space> /
+noremap <c-space> ?
+noremap <silent> <leader><cr> :noh<cr>
+
+" Switching between windows
+nnoremap <up> <C-W><C-K>
+nnoremap <down> <C-W><C-J>
+nnoremap <left> <C-W><C-H>
+nnoremap <right> <C-W><C-L>
+
+" Spell Checking {
+
+" Pressing ,ss will toggle and untoggle spell checking
+noremap <leader>ss :setlocal spell!<cr>
+
+" Shortcuts using <leader>
+noremap <leader>sn ]s
+noremap <leader>sp [s
+noremap <leader>sa zg
+noremap <leader>s? z=
+
+" }
+
+" Folding
 inoremap <F9> <C-O>za
 nnoremap <F9> za
 onoremap <F9> <C-C>za
 vnoremap <F9> zf
+nnoremap <leader>zs :set foldmethod=syntax<CR>
+
 " }}}
 
 " Abbreviations {{{
 :iabbrev @@ justin@justindomingue.com
 :iabbrev -> →
+" }}}
+
+" Autocommands {{{
+
+augroup debugging
+  autocmd!
+  autocmd FileType c nnoremap <buffer> <leader>db o<cr>printf("\n");<cr><esc>-f"a
+augroup END 
+
+augroup reload_vimrc 
+  autocmd!
+  autocmd BufWritePost $MYVIMRC source $MYVIMRC
+augroup END
+
 " }}}
 
 " Vimscript File Settings {{{
@@ -89,13 +159,16 @@ set grepprg=grep\ -nH\ $*
 let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'		" Search with ag (the silver searcher) instead of ack
 
 "" Syntastic
-let g:syntastic_check_on_open=1
-let g:syntastic_enable_signs=1
+" let g:syntastic_check_on_open=1
+" let g:syntastic_enable_signs=1
 
-" "" YouCompleteMe
-" let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/cpp/ycm/.ycm_extra_conf.py'
+" YouCompleteMe
+let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/cpp/ycm/.ycm_extra_conf.py'
 
 "" vim-markdown
 let g:vim_markdown_initial_foldlevel=1
 
-"" }}}
+" Taglist
+" let Tlist_Use_Right_Window = 1
+
+" }}}
