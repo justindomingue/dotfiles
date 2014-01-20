@@ -1,0 +1,3 @@
+echo '<meta charset="UTF-8">' > coursenotes.html
+echo '<link href="https://raw.github.com/justindomingue/markdown-css-themes/gh-pages/avenir-white.css" rel="stylesheet" type="text/css">' >> coursenotes.html
+markdown coursenotes.md >> coursenotes.html

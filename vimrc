@@ -67,13 +67,16 @@ set nrformats=                  						" treat all numerals as decimal
 " Mappings {{{
 
 " Leader Mappings {
-nnoremap <leader>sv :source $MYVIMRC<CR>
-nnoremap <leader>ev :split $MYVIMRC<CR>
-nnoremap <leader>ww  :w<cr>
-nnoremap <leader>wq :wq<CR>
-nnoremap <leader>qq :q!<CR>
-nnoremap <leader>-  O<esc>
-nnoremap <leader>=  o<esc>
+nnoremap <leader>sv     :source $MYVIMRC<CR>
+nnoremap <leader>ev     :split $MYVIMRC<CR>
+nnoremap <leader>ww     :w<cr>
+nnoremap <leader>wq     :wq<CR>
+nnoremap <leader>qq     :q!<CR>
+nnoremap <leader>-      O<esc>
+nnoremap <leader>=      o<esc>
+nnoremap <leader>mdc    :!./md-compile<CR><CR>
+nnoremap <leader>mdo    :!open coursenotes.html<CR><CR>
+nnoremap <leader>\n     02f"i\n<esc> 
 
 " Leader Mappings for Plugin {
 nnoremap <leader><left> :NERDTreeToggle<CR>
