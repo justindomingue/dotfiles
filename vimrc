@@ -35,7 +35,8 @@ set noerrorbells														" don't beep
 set nobackup
 set noswapfile
 set splitbelow                              " more natural split opening
-set splitright
+set splitright                              " ^
+set cursorline                              " highlight the current line
 
 colorscheme kolor
 
@@ -72,11 +73,20 @@ nnoremap <leader>ev     :split $MYVIMRC<CR>
 nnoremap <leader>ww     :w<cr>
 nnoremap <leader>wq     :wq<CR>
 nnoremap <leader>qq     :q!<CR>
-nnoremap <leader>-      O<esc>
-nnoremap <leader>=      o<esc>
-nnoremap <leader>mdc    :!./md-compile<CR><CR>
-nnoremap <leader>mdo    :!open coursenotes.html<CR><CR>
-nnoremap <leader>\n     02f"i\n<esc> 
+nnoremap <leader>-      O<esc>j
+nnoremap <leader>_      o<esc>k
+nnoremap <leader>=      gg=G'.
+nnoremap <leader>N      :setlocal number!<CR>
+
+" Markdown
+nnoremap <silent> <leader>mdc    :silent !./md-compile<CR><C-l>
+nnoremap <silent> <leader>mdo    :silent !open coursenotes.html<CR><C-l>
+nnoremap <F5> yyp<c-v>$r-
+inoremap <F5> <esc>yyp<c-v>$r-A
+
+" Add a character to a line ; returns to the exact location of mark "q"
+nnoremap <leader>an  mq02f"i\n<esc>`q 
+nnoremap <leader>a;    mqA;<esc>`q
 
 " Leader Mappings for Plugin {
 nnoremap <leader><left> :NERDTreeToggle<CR>
@@ -90,8 +100,7 @@ nnoremap <leader>dd ^D
 " Fast insert mode exit
 inoremap jk <esc>  
 
-" In normal mode, <cr> is {
-nnoremap <CR> <C-d>
+" File navigation, move up/down half a screen
 
 " Map <Space> to search and Ctrl-<Space> to backward search
 noremap <space> /
@@ -127,7 +136,8 @@ nnoremap <leader>zs :set foldmethod=syntax<CR>
 " }}}
 
 " Abbreviations {{{
-:iabbrev @@ justin@justindomingue.com
+" :iabbrev @@ justin@justindomingue.com " commented because of Vim's
+" justin@justindomingue.com
 :iabbrev -> →
 " }}}
 
@@ -135,7 +145,7 @@ nnoremap <leader>zs :set foldmethod=syntax<CR>
 
 augroup debugging
   autocmd!
-  autocmd FileType c nnoremap <buffer> <leader>db o<cr>printf("\n");<cr><esc>-f"a
+  autocmd FileType c* nnoremap <buffer> <leader>db o<cr>printf("\n");<cr><esc>-f"a
 augroup END 
 
 augroup reload_vimrc 
@@ -154,24 +164,20 @@ augroup END
 
 " Plugins {{{
 
-"" Vim Latex
-let g:tex_flavor='latex'
-set grepprg=grep\ -nH\ $*
-
 "" CtrlP
 let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'		" Search with ag (the silver searcher) instead of ack
 
 "" Syntastic
-" let g:syntastic_check_on_open=1
-" let g:syntastic_enable_signs=1
+let g:syntastic_check_on_open=1
+let g:syntastic_enable_signs=1
 
 " YouCompleteMe
 let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/cpp/ycm/.ycm_extra_conf.py'
 
+imap ùù <esc>a<Plug>snipMateNextOrTrigger
+smap ùù <Plug>snipMateNextOrTrigger
+
 "" vim-markdown
 let g:vim_markdown_initial_foldlevel=1
-
-" Taglist
-" let Tlist_Use_Right_Window = 1
 
 " }}}
