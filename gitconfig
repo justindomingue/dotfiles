@@ -1,0 +1,20 @@
+[user]
+	name = justindomingue
+	email = justin.domingue@hotmail.com
+[push]
+	default = simple
+[filter "hawser"]
+	clean = git hawser clean %f
+	smudge = git hawser smudge %f
+	required = true
+[credential]
+	helper = osxkeychain
+
+[alias]
+  aa = add -A
+  cm = commit -m
+  cam = !git add -A && git commit -m
+  s = status -s
+  d = !"git --no-pager diff --minimal --path-with-stat"
+  c = clone
+  p = push
