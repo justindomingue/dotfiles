@@ -24,10 +24,13 @@ filetype plugin indent on  " load file type plugins + indentation
 set number
 set ruler  " show the line/column of the cursor position
 set scrolloff=10
+set wildmenu
 set wildmode=full
 set laststatus=2  " Show status line always
 set history=200
-set undolevels=200
+set undolevels=1000
+set undofile
+set undodir=/Users/justindomingue/.vim/undo
 set wildignore=*.swp,*.bak,*.pyc,*.class,*.o,*~
 set title  " change the terminal's title
 set visualbell  " don't beep
@@ -37,8 +40,10 @@ set noswapfile
 set splitbelow  " more natural split opening
 set splitright  " ^
 set cursorline  " highlight the current line
+set tags=tags;
 
 set background=light
+" colorscheme tomorrow
 colorscheme tomorrow-night-eighties
 
 " change the mapleader from \ to ,
@@ -102,10 +107,12 @@ noremap <silent> <leader><cr> :noh<cr>
 " Switching between windows
 nnoremap <up> <C-W><C-K>
 nnoremap <down> <C-W><C-J>
+noremap <leader><left> <C-W><C-H>
+noremap <leader><right> <C-W><C-L>
 
 " Switching between buffers
-nnoremap <left> :bn<CR>
-nnoremap <right> :bp<CR>
+nnoremap <left> :bp<CR>
+nnoremap <right> :bn<CR>
 
 " Spell Checking {
 
@@ -151,9 +158,11 @@ let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 
-let g:airline_theme  = 'powerlineish'
+let g:airline_theme  = 'tomorrow'
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#branch#enabled = 1
 let g:airline#extensions#syntastic#enabled = 1
+
+let g:instant_markdown_autostart = 0
 
 " }}}
