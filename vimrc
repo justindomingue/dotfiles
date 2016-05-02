@@ -1,50 +1,61 @@
-" justindomingue/dotfiles/.vimrc
+call plug#begin('~/.vim/plugged')
 
-" Thanks & Resources {{{
-" thanks -
-"   github.com/mislav/vimfiles
-"   github.com/seenmyfate/vim
-"
-" resources -
-"   http://mislav.uniqpath.com/2011/12/vim-revisited/
-"		http://nvie.com/posts/how-i-boosted-my-vim/
-"		http://amix.dk/vim/vimrc.html
-" }}}
+Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+Plug 'tpope/vim-fugitive'
+Plug 'scrooloose/syntastic'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-commentary'
+Plug 'ntpeters/vim-better-whitespace'
+Plug 'kien/ctrlp.vim'
+Plug 'altercation/vim-colors-solarized'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'eagletmt/ghcmod-vim', { 'for': 'haskell' }
+Plug 'eagletmt/neco-ghc', { 'for': 'haskell' }
+Plug 'tomtom/tlib_vim'
+Plug 'MarcWeber/vim-addon-mw-utils'
+Plug 'garbas/vim-snipmate'
+Plug 'godlygeek/tabular'
+Plug 'ervandew/supertab'
+Plug 'Shougo/neocomplete.vim'
+Plug 'Shougo/vimproc.vim', { 'do': 'make' }
+Plug 'keith/tmux.vim'
+Plug 'itchyny/vim-haskell-indent', { 'for': 'haskell' }
 
-" Pathogen {{{
-execute pathogen#infect()
-"}}}
+call plug#end()
 
 " Basic Settings {{{
-set nocompatible  " choose no compatibility with legacy vi
+set nocompatible                                " choose no compatibility with legacy vi
 syntax enable
 set encoding=utf-8
-set showcmd  " display incomplete commands
-filetype plugin indent on  " load file type plugins + indentation
+set showcmd                                     " display incomplete commands
+filetype plugin indent on                       " load file type plugins + indentation
 set number
-set ruler  " show the line/column of the cursor position
+set ruler                                       " show the line/column of the cursor position
 set scrolloff=10
 set wildmenu
 set wildmode=full
-set laststatus=2  " Show status line always
+set laststatus=2                                " Show status line always
 set history=200
 set undolevels=1000
 set undofile
 set undodir=/Users/justindomingue/.vim/undo
 set wildignore=*.swp,*.bak,*.pyc,*.class,*.o,*~
-set title  " change the terminal's title
-set visualbell  " don't beep
-set noerrorbells  " don't beep
+set title                                       " change the terminal's title
+set visualbell                                  " don't beep
+set noerrorbells                                " don't beep
 set nobackup
 set noswapfile
-set splitbelow  " more natural split opening
-set splitright  " ^
-set cursorline  " highlight the current line
+set splitbelow                                  " more natural split opening
+set splitright                                  " ^
+set cursorline                                  " highlight the current line
 set tags=tags;
+set t_Co=256
 
 set background=light
-" colorscheme tomorrow
-colorscheme tomorrow-night-eighties
+colorscheme solarized
+let g:solarized_termcolors=256
 
 " change the mapleader from \ to ,
 let mapleader =  ","
@@ -52,52 +63,29 @@ let maplocalleader =  ",,"
 " }}}
 
 " Whitespace {{{
-set tabstop=2 softtabstop=2 shiftwidth=2  " a tab is two spaces
-set expandtab  " use spaces, not tabs
-set backspace=indent,eol,start  " backspace through everything in insert mode
-set ai  " auto indent
-set si  " smart indent
+set tabstop=2 softtabstop=2 shiftwidth=2 " a tab is two spaces
+set expandtab                            " use spaces, not tabs
+set backspace=indent,eol,start           " backspace through everything in insert
+mode
+set ai                                   " auto indent
+set si                                   " smart indent
 " }}}
 
 " Searching {{{
-set hlsearch  " highlight matches
+set hlsearch   " highlight matches
 set incsearch  " incremental searching
-set ignorecase  " searches are case insensitive...
+set ignorecase " searches are case insensitive...
 set smartcase  " ... unless they contain at least one capital letter
-set nrformats=  " treat all numerals as decimal
-" }}}
-
-" FileType-specific Settings {{{
+set nrformats= " treat all numerals as decimal
 " }}}
 
 " Mappings {{{
 
-" Leader Mappings {
-nnoremap <leader>sv     :source $MYVIMRC<CR>
-nnoremap <leader>ev     :split $MYVIMRC<CR>
-nnoremap <leader>ww     :w<cr>
-nnoremap <leader>-      O<esc>j " insert empty line above
-nnoremap <leader>_      o<esc>k " insert empty libe below
-nnoremap <leader>=      gg=G'.  " reindent file
-nnoremap <leader>N      :setlocal number!<CR> " toggle number
-nnoremap <leader>dd ^D
-
-" Markdown
-nnoremap <silent> <leader>mdc    :silent !./md-compile<CR><C-l>
-nnoremap <silent> <leader>mdo    :silent !open coursenotes.html<CR><C-l>
-nnoremap <F5> yyp<c-v>$r-
-inoremap <F5> <esc>yyp<c-v>$r-A
-
-" Add a character to a line ; returns to the exact location of mark  "q"
-nnoremap <leader>an  mq02f"i\n<esc>`q
-nnoremap <leader>a;    mqA;<esc>`q
-
-" Leader Mappings for Plugin {
-nnoremap <leader><left> :NERDTreeToggle<CR>
-nnoremap <leader><right> :TlistToggle<CR>
-
 " Fast insert mode exit
 inoremap jk <esc>
+
+" Remap <c-a> to <c-z> as <c-a> is my tmux prefix
+noremap <c-z> <c-a>
 
 " Map <Space> to search and Ctrl-<Space> to backward search
 noremap <space> /
@@ -114,41 +102,25 @@ noremap <leader><right> <C-W><C-L>
 nnoremap <left> :bp<CR>
 nnoremap <right> :bn<CR>
 
-" Spell Checking {
-
-" Pressing ,ss will toggle and untoggle spell checking
-noremap <leader>ss :setlocal spell!<cr>
-
-" Shortcuts using <leader>
-noremap <leader>sn ]s
-noremap <leader>sp [s
-noremap <leader>sa zg
-noremap <leader>s? z=
-
-" }}}
-
-" Autocommands {{{
-
-augroup reload_vimrc
-  autocmd!
-  autocmd BufWritePost $MYVIMRC source $MYVIMRC
-augroup END
-
-" }}}
-
-" Vimscript File Settings {{{
-augroup filetype_vim
-  autocmd!
-  autocmd FileType vim setlocal foldmethod=marker
-augroup END
 " }}}
 
 " Plugins {{{
 
-"" CtrlP
-let g:ctrlp_user_command = 'ag %s -l --nocolor -g  ""'  " Search with ag (the silver searcher) instead of ack
+" nerdtree
 
-"" Syntastic
+map <Leader>n :NerdTreeToggle<CR>
+
+" CtrlP
+
+let g:ctrlp_user_command = 'ag %s -l --nocolor -g  ""'  " Search with ag (the silver searcher) instead of ack
+map <silent> <Leader>t :CtrlP()<CR>
+noremap <leader>b<space> :CtrlPBuffer<cr>
+let g:ctrlp_custom_ignore = '\v[\/]dist$'
+
+" Syntastic
+
+map <Leader>s :SyntasticToggleMode<CR>
+
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
@@ -158,11 +130,41 @@ let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 
-let g:airline_theme  = 'tomorrow'
+" vim-airline
+let g:airline_theme='solarized'
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#branch#enabled = 1
 let g:airline#extensions#syntastic#enabled = 1
 
-let g:instant_markdown_autostart = 0
+" ghc-mod
+
+map <silent> tw :GhcModTypeInsert<CR>
+map <silent> ts :GhcModSplitFunCase<CR>
+map <silent> tq :GhcModType<CR>
+map <silent> te :GhcModTypeClear<CR>
+
+" supertab
+
+let g:SuperTabDefaultCompletionType = '<c-x><c-o>'
+
+if has("gui_running")
+  imap <c-space> <c-r>=SuperTabAlternateCompletion("\<lt>c-x>\<lt>c-o>")<cr>
+else " no gui
+  if has("unix")
+    inoremap <Nul> <c-r>=SuperTabAlternateCompletion("\<lt>c-x>\<lt>c-o>")<cr>
+  endif
+endif
+
+" Disable haskell-vim omnifunc
+let g:haskellmode_completion_ghc = 1
+autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
+
+" tabularize
+
+let g:haskell_tabular = 1
+
+vmap a= :Tabularize /=<CR>
+vmap a; :Tabularize /::<CR>
+vmap a- :Tabularize /-><CR>
 
 " }}}
