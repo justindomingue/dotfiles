@@ -1,0 +1,21 @@
+#!/bin/zsh
+# Opens the config file specified in the first parameter
+#
+case "$1" in
+  t|tmux)
+    $EDITOR ~/.tmux.conf
+    ;;
+  v|vim)
+    $EDITOR ~/.vimrc
+    ;;
+  p|prezto)
+    $EDITOR ~/.zpreztorc
+    ;;
+  z|zsh)
+    $EDITOR ~/.zshrc
+    ;;
+  *)
+    echo "Unknown configuration file"
+    ;;
+esac
+
