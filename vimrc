@@ -8,7 +8,7 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-commentary'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'kien/ctrlp.vim'
-Plug 'altercation/vim-colors-solarized'
+Plug 'flazz/vim-colorschemes'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'eagletmt/ghcmod-vim', { 'for': 'haskell' }
@@ -22,6 +22,7 @@ Plug 'Shougo/neocomplete.vim'
 Plug 'Shougo/vimproc.vim', { 'do': 'make' }
 Plug 'keith/tmux.vim'
 Plug 'itchyny/vim-haskell-indent', { 'for': 'haskell' }
+Plug 'mhinz/vim-startify'
 
 call plug#end()
 
@@ -52,10 +53,16 @@ set splitright                                  " ^
 set cursorline                                  " highlight the current line
 set tags=tags;
 set t_Co=256
+set viminfo='100,n$HOME/.vim/files/info/viminfo
 
-set background=light
-colorscheme solarized
-let g:solarized_termcolors=256
+colorscheme wombat
+set background=dark
+
+" Persistent undo
+set undofile
+set undodir=$HOME/.vim/undo
+set undolevels=1000
+set undoreload=10000
 
 " change the mapleader from \ to ,
 let mapleader =  ","
@@ -131,7 +138,7 @@ let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 
 " vim-airline
-let g:airline_theme='solarized'
+let g:airline_theme='wombat'
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#branch#enabled = 1
 let g:airline#extensions#syntastic#enabled = 1
