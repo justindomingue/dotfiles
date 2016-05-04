@@ -1,28 +1,28 @@
 call plug#begin('~/.vim/plugged')
 
-Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
-Plug 'tpope/vim-fugitive'
-Plug 'scrooloose/syntastic'
-Plug 'tpope/vim-surround'
-Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-commentary'
-Plug 'ntpeters/vim-better-whitespace'
-Plug 'kien/ctrlp.vim'
-Plug 'flazz/vim-colorschemes'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
 Plug 'eagletmt/ghcmod-vim', { 'for': 'haskell' }
 Plug 'eagletmt/neco-ghc', { 'for': 'haskell' }
-Plug 'tomtom/tlib_vim'
-Plug 'MarcWeber/vim-addon-mw-utils'
-Plug 'garbas/vim-snipmate'
-Plug 'godlygeek/tabular'
 Plug 'ervandew/supertab'
-Plug 'Shougo/neocomplete.vim'
-Plug 'Shougo/vimproc.vim', { 'do': 'make' }
+Plug 'flazz/vim-colorschemes'
+Plug 'godlygeek/tabular'
+" Plug 'itchyny/vim-haskell-indent', { 'for': 'haskell' }
+Plug 'neovimhaskell/haskell-vim', { 'for': 'haskell' }
 Plug 'keith/tmux.vim'
-Plug 'itchyny/vim-haskell-indent', { 'for': 'haskell' }
+Plug 'kien/ctrlp.vim'
+Plug 'marcweber/vim-addon-mw-utils'
 Plug 'mhinz/vim-startify'
+Plug 'ntpeters/vim-better-whitespace'
+Plug 'scrooloose/nerdtree', { 'on': 'NERDTreetoggle' }
+Plug 'scrooloose/syntastic'
+Plug 'tomtom/tlib_vim'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-abolish'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'Shougo/vimproc.vim', { 'do': 'make' }
 
 call plug#end()
 
@@ -35,13 +35,14 @@ filetype plugin indent on                       " load file type plugins + inden
 set number
 set ruler                                       " show the line/column of the cursor position
 set scrolloff=10
+set nowrap
 set wildmenu
 set wildmode=full
 set laststatus=2                                " Show status line always
 set history=200
 set undolevels=1000
 set undofile
-set undodir=/Users/justindomingue/.vim/undo
+set undodir=~/.vim/undo
 set wildignore=*.swp,*.bak,*.pyc,*.class,*.o,*~
 set title                                       " change the terminal's title
 set visualbell                                  " don't beep
@@ -52,11 +53,12 @@ set splitbelow                                  " more natural split opening
 set splitright                                  " ^
 set cursorline                                  " highlight the current line
 set tags=tags;
-set t_Co=256
 set viminfo='100,n$HOME/.vim/files/info/viminfo
 
+" Colors
 colorscheme wombat
 set background=dark
+set t_Co=256
 
 " Persistent undo
 set undofile
@@ -149,22 +151,6 @@ map <silent> tw :GhcModTypeInsert<CR>
 map <silent> ts :GhcModSplitFunCase<CR>
 map <silent> tq :GhcModType<CR>
 map <silent> te :GhcModTypeClear<CR>
-
-" supertab
-
-let g:SuperTabDefaultCompletionType = '<c-x><c-o>'
-
-if has("gui_running")
-  imap <c-space> <c-r>=SuperTabAlternateCompletion("\<lt>c-x>\<lt>c-o>")<cr>
-else " no gui
-  if has("unix")
-    inoremap <Nul> <c-r>=SuperTabAlternateCompletion("\<lt>c-x>\<lt>c-o>")<cr>
-  endif
-endif
-
-" Disable haskell-vim omnifunc
-let g:haskellmode_completion_ghc = 1
-autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
 
 " tabularize
 
