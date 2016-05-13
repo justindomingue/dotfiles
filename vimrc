@@ -1,28 +1,31 @@
 call plug#begin('~/.vim/plugged')
 
+" Plug 'itchyny/vim-haskell-indent', { 'for': 'haskell' }
+Plug 'Shougo/vimproc.vim', { 'do': 'make' }
 Plug 'eagletmt/ghcmod-vim', { 'for': 'haskell' }
 Plug 'eagletmt/neco-ghc', { 'for': 'haskell' }
 Plug 'ervandew/supertab'
 Plug 'flazz/vim-colorschemes'
 Plug 'godlygeek/tabular'
-" Plug 'itchyny/vim-haskell-indent', { 'for': 'haskell' }
-Plug 'neovimhaskell/haskell-vim', { 'for': 'haskell' }
 Plug 'keith/tmux.vim'
 Plug 'kien/ctrlp.vim'
 Plug 'marcweber/vim-addon-mw-utils'
 Plug 'mhinz/vim-startify'
+Plug 'neovimhaskell/haskell-vim', { 'for': 'haskell' }
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreetoggle' }
 Plug 'scrooloose/syntastic'
 Plug 'tomtom/tlib_vim'
+Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
-Plug 'tpope/vim-abolish'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'Shougo/vimproc.vim', { 'do': 'make' }
+Plug 'vim-scripts/indentpython.vim', { 'for': 'python' }
+Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
+Plug 'nvie/vim-flake8'
 
 call plug#end()
 
@@ -38,6 +41,7 @@ set scrolloff=10
 set nowrap
 set wildmenu
 set wildmode=full
+set clipboard=unnamed
 set laststatus=2                                " Show status line always
 set history=200
 set undolevels=1000
@@ -56,9 +60,14 @@ set tags=tags;
 set viminfo='100,n$HOME/.vim/files/info/viminfo
 
 " Colors
-colorscheme wombat
-set background=dark
 set t_Co=256
+if has('gui_running')
+  set background=dark
+  colorscheme solarized
+else
+  colorscheme wombat
+endif
+
 
 " Persistent undo
 set undofile
@@ -113,11 +122,37 @@ nnoremap <right> :bn<CR>
 
 " }}}
 
+" Python {{{
+
+" indentation
+au BufNewFile,BufRead *.py
+    \ set tabstop=4
+    \ set softtabstop=4
+    \ set shiftwidth=4
+    \ set textwidth=79
+    \ set expandtab
+    \ set autoindent
+    \ set fileformat=unix
+
+"python with virtualenv support
+py << EOF
+import os
+import sys
+if 'VIRTUAL_ENV' in os.environ:
+  project_base_dir = os.environ['VIRTUAL_ENV']
+  activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
+  execfile(activate_this, dict(__file__=activate_this))
+EOF
+
+" }}}
+
 " Plugins {{{
 
 " nerdtree
 
 map <Leader>n :NerdTreeToggle<CR>
+let NERDTreeIgnore=['\.pyc$', '\~$'] "ignore files in NERDTree
+
 
 " CtrlP
 
@@ -159,5 +194,13 @@ let g:haskell_tabular = 1
 vmap a= :Tabularize /=<CR>
 vmap a; :Tabularize /::<CR>
 vmap a- :Tabularize /-><CR>
+
+" youcompleteme
+
+let g:ycm_autoclose_preview_window_after_completion=1
+
+" flake8
+
+let python_highlight_all=1
 
 " }}}
